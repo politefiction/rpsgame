@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <title>Rock, Paper, Scissors</title>
+    </head>
+    <body>
+        <script>
+            let playerScore = 0;
+            let computerScore = 0;
+
+            function computerPlay() {
+                let choices = ['rock', 'paper', 'scissors'];
+                return choices[Math.floor(Math.random() * choices.length)];
+            }
+
+            function capitalize(string) {
+                return string[0].toUpperCase() + string.slice(1).toLowerCase();
+            }
+
+            function playRound() {
+                let playerSelection = prompt('Rock, paper, or scissors?');
+                let computerSelection = computerPlay();
+
+                function playerWins() {
+                    playerScore += 1;
+                    return `You win! ${capitalize(playerSelection)} beats ${computerSelection}.`;
+                }
+
+                function playerLoses() {
+                    computerScore += 1;
+                    return `You lose! ${capitalize(computerSelection)} beats ${playerSelection}.`;
+                }
+
+                switch (playerSelection) {
+                    case computerSelection:
+                        return 'A tie! Nobody wins!';
+                        break;
+                    case 'rock':
+                        return computerSelection === 'paper' ? playerLoses() : playerWins();
+                        break;
+                    case 'paper':
+                        return computerSelection === 'scissors' ? playerLoses() : playerWins();
+                        break;
+                    case 'scissors':
+                        return computerSelection === 'rock' ? playerLoses() : playerWins();
+                        break;
+                    default:
+                        return "That's, like, now even a choice.";
+                }
+            }             
+
+            function game() {
+                while (computerScore + playerScore < 5) {
+                    console.log(playRound());
+                }
+                return `Game over! ${computerScore > playerScore ? 'Computer wins!' : 'Player Wins!'}`
+            }
+
+        </script>
+    </body>
+</html>
