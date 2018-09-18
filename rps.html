@@ -3,9 +3,29 @@
         <title>Rock, Paper, Scissors</title>
     </head>
     <body>
+        <div id="score"></div>
+        <h1>Please choose one: </h1>
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
+        <br><br>
+        <div id="result"></div>
+
         <script>
             let playerScore = 0;
             let computerScore = 0;
+
+            let result = document.querySelector('#result');
+            let buttons = document.querySelectorAll('button');
+            let score = document.querySelector('#score');
+            
+            score.textContent = `Current score - Computer: ${computerScore}, Player: ${playerScore}`;
+
+            buttons.forEach((button) => {
+                button.addEventListener('click', (e) => {
+                    playRound(e.target.id);
+                });
+            });
 
             function computerPlay() {
                 let choices = ['rock', 'paper', 'scissors'];
@@ -16,44 +36,37 @@
                 return string[0].toUpperCase() + string.slice(1).toLowerCase();
             }
 
-            function playRound() {
-                let playerSelection = prompt('Rock, paper, or scissors?');
+            function playRound(playerSelection) {
                 let computerSelection = computerPlay();
 
                 function playerWins() {
                     playerScore += 1;
-                    return `You win! ${capitalize(playerSelection)} beats ${computerSelection}.`;
+                    result.textContent = `You win! ${capitalize(playerSelection)} beats ${computerSelection}.`;
                 }
 
                 function playerLoses() {
                     computerScore += 1;
-                    return `You lose! ${capitalize(computerSelection)} beats ${playerSelection}.`;
+                    result.textContent = `You lose! ${capitalize(computerSelection)} beats ${playerSelection}.`;
                 }
 
                 switch (playerSelection) {
                     case computerSelection:
-                        return 'A tie! Nobody wins!';
+                        result.textContent = 'A tie! Nobody wins!';
                         break;
                     case 'rock':
-                        return computerSelection === 'paper' ? playerLoses() : playerWins();
+                        computerSelection === 'paper' ? playerLoses() : playerWins();
                         break;
                     case 'paper':
-                        return computerSelection === 'scissors' ? playerLoses() : playerWins();
+                        computerSelection === 'scissors' ? playerLoses() : playerWins();
                         break;
                     case 'scissors':
-                        return computerSelection === 'rock' ? playerLoses() : playerWins();
+                        computerSelection === 'rock' ? playerLoses() : playerWins();
                         break;
                     default:
-                        return "That's, like, now even a choice.";
+                        result.textContent = "That's, like, now even a choice.";
                 }
+                score.textContent = `Current score - Computer: ${computerScore}, Player: ${playerScore}`;
             }             
-
-            function game() {
-                while (computerScore + playerScore < 5) {
-                    console.log(playRound());
-                }
-                return `Game over! ${computerScore > playerScore ? 'Computer wins!' : 'Player Wins!'}`
-            }
 
         </script>
     </body>
